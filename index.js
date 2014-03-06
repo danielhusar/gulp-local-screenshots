@@ -10,8 +10,6 @@ var browser = function(file, opts, cb) {
   var width = opts.width.slice(0);
   var filename = file.replace(opts.path, '');
   var url = 'http://localhost:' + opts.port + '/' + filename;
-  var type = opts.type;
-  var folder = opts.folder;
 
   phantom.create(function(ph) {
     ph.createPage(function(page) {
@@ -29,7 +27,7 @@ var browser = function(file, opts, cb) {
         });
 
         page.open(url, function() {
-          var dest = filename.replace('.html', '') + '-' + w + '.' + type;
+          var dest = filename.replace('.html', '') + '-' + w + '.' + opts.type;
           // Background problem under self-host server
           page.evaluate(function() {
             var style = document.createElement('style');
@@ -38,7 +36,7 @@ var browser = function(file, opts, cb) {
             style.appendChild(text);
             document.head.insertBefore(style, document.head.firstChild);
           });
-          page.render(folder + '/' + dest, function() {
+          page.render(opts.folder + '/' + dest, function() {
             gutil.log('gulp-local-screenshots:', gutil.colors.green('✔ ') + dest);
             screenshot(width.pop());
           });

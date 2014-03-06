@@ -53,7 +53,7 @@ Array of page widths to make screenshots (for the responsive website)
 #### height
 
 Type: `String`  
-Default: ['10']
+Default: '10'
 
 Height of the page, if the actual page heights is more than that it, iamge will have actual page height.
 (specifing height is good for testing)
