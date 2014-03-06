@@ -26,19 +26,51 @@ gulp.task('screens', function () {
 
 ```
 
-## API
+## Options
 
-```
-{
-  path  : 'public',   // path from which the static files are served (this string is removed from file relative path so be carefull and dont put just '/')
-  port : '8080',      // port for the statis web server
-  width : ['1024'],   // array of page widths to make screenshots (for the responsive website)
-  type : 'jpg',       // output image ext 
-  folder : 'screens', // folder where to put images
-  timeout : 200       // timeone between files, in most cases you dont need to change that
-}
 
-```
+#### path
+
+Type: `String`  
+Default: 'public'
+
+Path from which the static files are served (this string is removed from file relative path so be carefull and dont put just '/')
+
+#### port
+
+Type: `Number`  
+Default: '8080'
+
+Port for the statis web server
+
+#### width
+
+Type: `Array`  
+Default: ['1024']
+
+Array of page widths to make screenshots (for the responsive website)
+
+#### type
+
+Type: `String`  
+Default: 'jpg'
+
+Output image extension
+
+#### folder
+
+Type: `String`  
+Default: 'screens'
+
+Folder where to put images
+
+#### timeout
+
+Type: `Number`  
+Default: '200'
+
+Timeout between files, in most cases you dont need to change that
+
 
 ## Demo
 
