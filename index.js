@@ -5,37 +5,6 @@ var phantom = require('node-phantom-simple');
 var http = require('http');
 var st = require('st');
 
-
-module.exports = function (options) {
-  var opts = {
-    local: {}
-  };
-
-  //defaults
-  opts.path = options.path || 'public';
-  opts.port = options.port || '8080';
-  opts.width = options.width || ['1024', '800', '480', '320'];
-  opts.type = options.type || 'jpg';
-  opts.folder = options.folder ||'screens';
-
-  return through.obj(function (file, enc, cb) {
-    if (file.isNull()) {
-      this.push(file);
-      return cb();
-    }
-
-    if (file.isStream()) {
-      this.emit('error', new gutil.PluginError('gulp-local-screenshots', 'Streaming not supported'));
-      return cb();
-    }
-
-    server(file.relative, opts, cb);
-    this.push(file);
-
-  });
-};
-
-
 // Core screenshot function using phamtonJS
 var screenshot = function(opts, cb) {
   var width = opts.width;
@@ -72,7 +41,8 @@ var screenshot = function(opts, cb) {
   });
 };
 
-var server = function(file, options, cb){
+
+var viewports = function(file, options, cb){
   file = file.replace(options.path, '');
   var length  = options.port.length - 1;
   var callback;
@@ -87,6 +57,37 @@ var server = function(file, options, cb){
         width: view
       }, callback);
     });
+  });
+};
+
+module.exports = function (options) {
+  var opts = {
+    local: {}
+  };
+  options = options ? options : {};
+
+  //defaults
+  opts.path = options.path || 'public';
+  opts.port = options.port || '8080';
+  opts.width = options.width || ['1024', '800', '480', '320'];
+  opts.type = options.type || 'jpg';
+  opts.folder = options.folder ||'screens';
+
+
+  return through.obj(function (file, enc, cb) {
+    if (file.isNull()) {
+      this.push(file);
+      return cb();
+    }
+
+    if (file.isStream()) {
+      this.emit('error', new gutil.PluginError('gulp-local-screenshots', 'Streaming not supported'));
+      return cb();
+    }
+
+    viewports(file.relative, opts, cb);
+    this.push(file);
+
   });
 };
 
