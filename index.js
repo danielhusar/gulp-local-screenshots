@@ -25,7 +25,7 @@ var browser = function(file, opts, cb) {
         }
         page.set('viewportSize', {
           width: w,
-          height: '500'
+          height: opts.height
         });
 
         page.open(url, function() {
