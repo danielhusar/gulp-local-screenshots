@@ -25,7 +25,7 @@ var browser = function(file, opts, cb) {
         }
         page.set('viewportSize', {
           width: w,
-          height: '10'
+          height: '500'
         });
 
         page.open(url, function() {
@@ -60,6 +60,7 @@ module.exports = function (options) {
   opts.path = options.path || 'public';
   opts.port = options.port || '8080';
   opts.width = options.width || ['1024'];
+  opts.height = options.height || '10';
   opts.type = options.type || 'jpg';
   opts.folder = options.folder || 'screens';
   opts.timeout = options.timeout || 200;

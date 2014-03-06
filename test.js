@@ -7,7 +7,7 @@ var sizeOf = require('image-size');
 var dimensions;
 
 it('It should generate properly screenshot', function (cb) {
-  var stream = localScreenshots();
+  var stream = localScreenshots({height: 500});
 
   stream.on('data', function(){
   });
@@ -16,7 +16,7 @@ it('It should generate properly screenshot', function (cb) {
     console.log('\r\n');
     dimensions = sizeOf('screens/index-1024.jpg');
     assert.equal(dimensions.width, 1024);
-    assert.equal(dimensions.height, 367);
+    assert.equal(dimensions.height, 500);
     fs.unlinkSync('screens/index-1024.jpg');
     fs.rmdirSync('screens');
     cb();
