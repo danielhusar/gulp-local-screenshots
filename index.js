@@ -4,13 +4,19 @@ var through = require('through2');
 var phantom = require('node-phantom-simple');
 var http = require('http');
 var st = require('st');
-var options = {};
 
 
 module.exports = function (options) {
-  if (!options.foo) {
-    throw new gutil.PluginError('gulp-local-screenshots', '`foo` required');
-  }
+  var opts = {
+    local: {}
+  };
+
+  //defaults
+  opts.path = options.path || 'public';
+  opts.port = options.port || '8080';
+  opts.width = options.width || ['1024', '800', '480', '320'];
+  opts.type = options.type || 'jpg';
+  opts.folder = options.folder ||'screens';
 
   return through.obj(function (file, enc, cb) {
     if (file.isNull()) {
@@ -23,48 +29,31 @@ module.exports = function (options) {
       return cb();
     }
 
-    try {
-      file.contents = new Buffer(file.contents.toString());
-    } catch (err) {
-      this.emit('error', new gutil.PluginError('gulp-local-screenshots', err));
-    }
-
+    server(file.relative, opts, cb);
     this.push(file);
-    server(cb);
+
   });
 };
 
 
-options.local = {};
-options.local.path = 'public';
-options.local.port = '8080';
-options.viewport = ['800x600'];
-options.type = 'jpg';
-options.path = 'screens';
-
-
 // Core screenshot function using phamtonJS
 var screenshot = function(opts, cb) {
-  var viewport = opts.viewport;
+  var width = opts.width;
   var url = opts.url;
   var filename = opts.filename;
   var type = opts.type;
-  var path = opts.path;
+  var folder = opts.folder;
 
   phantom.create(function(err, ph) {
     ph.createPage(function(err, page) {
-      if (viewport) {
-        var sets = viewport.match(/(\d+)x(\d+)/);
-        if (sets[1] && sets[2]) {
-          page.set('viewportSize', {
-            width: sets[1],
-            height: sets[2]
-          });
-        }
-      }
+      page.set('viewportSize', {
+        width: width,
+        height: '10'
+      });
       page.set('zoomFactor', 1);
-      page.open(url, function(err, status) {
-        var dest = filename + '.' + type;
+      page.open(url, function() {
+        var dest = filename.replace('.html', '') + '-' + width + '.' + type;
+
         // Background problem under self-host server
         page.evaluate(function() {
           var style = document.createElement('style');
@@ -74,7 +63,7 @@ var screenshot = function(opts, cb) {
           document.head.insertBefore(style, document.head.firstChild);
         });
 
-        page.render(path + '/' + dest, function() {
+        page.render(folder + '/' + dest, function() {
           ph.exit();
           cb();
         });
@@ -83,21 +72,20 @@ var screenshot = function(opts, cb) {
   });
 };
 
-var server = function(cb){
-  http.createServer(
-  st({
-    path: options.local.path
-  })
-).listen(options.local.port, function() {
-    options.viewport.forEach(function(view, index) {
-      var page = 'http://localhost:' + options.local.port + '/index.html';
+var server = function(file, options, cb){
+  file = file.replace(options.path, '');
+  var length  = options.port.length - 1;
+  var callback;
+  http.createServer(st({ path: options.path })).listen(options.port, function() {
+    options.width.forEach(function(view, index) {
+      callback = index === length ? cb : function(){};
       screenshot({
-        path: options.path,
-        filename: 'index.html',
+        folder: options.folder,
+        filename: file,
         type: options.type,
-        url: page,
-        viewport: view
-      }, cb);
+        url: 'http://localhost:' + options.port + '/' + file,
+        width: view
+      }, callback);
     });
   });
 };
