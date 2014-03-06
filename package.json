@@ -1,6 +1,6 @@
 {
   "name": "gulp-local-screenshots",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Make the screenshots of your static html files using phantomjs.",
   "license": "MIT",
   "repository": "danielhusar/gulp-local-screenshots",
@@ -29,5 +29,6 @@
   },
   "devDependencies": {
     "mocha": "*"
-  }
+  },
+  "readmeFilename": "readme.md"
 }
