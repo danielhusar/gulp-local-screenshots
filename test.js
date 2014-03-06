@@ -4,10 +4,10 @@ var gutil = require('gulp-util');
 var localScreenshots = require('./index');
 
 it('should ', function (cb) {
-  var stream = localScreenshots();
+  var stream = localScreenshots({foo: 'foo'});
 
   stream.on('data', function (file) {
-    assert.equal(file.relative, 'file.ext');
+    assert.equal(file.relative, 'public/index.html');
     assert.equal(file.contents.toString(), 'unicorns');
   });
 
@@ -15,7 +15,7 @@ it('should ', function (cb) {
 
   stream.write(new gutil.File({
     base: __dirname,
-    path: __dirname + 'file.ext',
+    path: __dirname + '/public/index.html',
     contents: new Buffer('unicorns')
   }));
 
