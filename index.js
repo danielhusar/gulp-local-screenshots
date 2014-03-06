@@ -19,7 +19,7 @@ var browser = function(file, opts, cb) {
       var screenshot = function(w){
         if(!w) {
           ph.exit();
-          setTimeout(cb, 200);
+          setTimeout(cb, opts.timeout);
           width = opts.width.slice(0);
           return;
         }
@@ -27,8 +27,17 @@ var browser = function(file, opts, cb) {
           width: w,
           height: '10'
         });
+
         page.open(url, function() {
           var dest = filename.replace('.html', '') + '-' + w + '.' + type;
+          // Background problem under self-host server
+          page.evaluate(function() {
+            var style = document.createElement('style');
+            var text = document.createTextNode('body { background: #fff }');
+            style.setAttribute('type', 'text/css');
+            style.appendChild(text);
+            document.head.insertBefore(style, document.head.firstChild);
+          });
           page.render(folder + '/' + dest, function() {
             gutil.log('gulp-local-screenshots:', gutil.colors.green('✔ ') + dest);
             screenshot(width.pop());
@@ -50,9 +59,10 @@ module.exports = function (options) {
   //defaults
   opts.path = options.path || 'public';
   opts.port = options.port || '8080';
-  opts.width = options.width || ['1600', '1000'];
+  opts.width = options.width || ['1024'];
   opts.type = options.type || 'jpg';
-  opts.folder = options.folder ||'screens';
+  opts.folder = options.folder || 'screens';
+  opts.timeout = options.timeout || 200;
 
   return through.obj(function (file, enc, cb) {
     server = http.createServer(st({ path: opts.path })).listen(opts.port);

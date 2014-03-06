@@ -24,7 +24,7 @@
   "dependencies": {
     "gulp-util": "~2.2.14",
     "through2": "~0.4.1",
-    "node-phantom-simple": "~1.0.10",
+    "phantom": "*",
     "st": "~0.2.1"
   },
   "devDependencies": {
