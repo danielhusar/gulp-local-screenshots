@@ -63,9 +63,10 @@ module.exports = function (options) {
   opts.folder = options.folder || 'screens';
   opts.timeout = options.timeout || 200;
 
-  return through.obj(function (file, enc, cb) {
-    server = http.createServer(st({ path: opts.path })).listen(opts.port);
+  //start local webserver
+  server = http.createServer(st({ path: opts.path })).listen(opts.port);
 
+  return through.obj(function (file, enc, cb) {
     if (file.isNull()) {
       this.push(file);
       return cb();
@@ -78,9 +79,11 @@ module.exports = function (options) {
 
     this.push(file);
     browser(file.relative, opts, function(){
-      server.close();
       cb();
     });
 
+  }, function(cb){
+    server.close();
+    cb();
   });
 };
