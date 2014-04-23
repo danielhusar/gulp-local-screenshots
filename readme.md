@@ -41,7 +41,7 @@ Path from which the static files are served (this string is removed from file re
 Type: `Number`  
 Default: '8080'
 
-Port for the statis web server
+Port for the static web server
 
 #### width
 
