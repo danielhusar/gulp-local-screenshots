@@ -6,16 +6,16 @@ var http = require('http');
 var st = require('st');
 
 // Core screenshot function using phamtonJS
-var browser = function(file, opts, cb) {
+var browser = function (file, opts, cb) {
   var width = opts.width.slice(0);
   var filename = file.replace(opts.path, '');
   var url = 'http://localhost:' + opts.port + '/' + filename;
 
-  phantom.create(function(ph) {
-    ph.createPage(function(page) {
+  phantom.create(function (ph) {
+    ph.createPage(function (page) {
       page.set('zoomFactor', 1);
-      var screenshot = function(w){
-        if(!w) {
+      var screenshot = function (w) {
+        if (!w) {
           ph.exit();
           setTimeout(cb, opts.timeout);
           width = opts.width.slice(0);
@@ -29,14 +29,14 @@ var browser = function(file, opts, cb) {
         page.open(url, function() {
           var dest = filename.replace('.html', '') + '-' + w + '.' + opts.type;
           // Background problem under self-host server
-          page.evaluate(function() {
+          page.evaluate(function () {
             var style = document.createElement('style');
             var text = document.createTextNode('body { background: #fff }');
             style.setAttribute('type', 'text/css');
             style.appendChild(text);
             document.head.insertBefore(style, document.head.firstChild);
           });
-          page.render(opts.folder + '/' + dest, function() {
+          page.render(opts.folder + '/' + dest, function () {
             gutil.log('gulp-local-screenshots:', gutil.colors.green('✔ ') + dest);
             screenshot(width.pop());
           });
@@ -78,11 +78,9 @@ module.exports = function (options) {
     }
 
     this.push(file);
-    browser(file.relative, opts, function(){
-      cb();
-    });
+    browser(file.relative, opts, cb);
 
-  }, function(cb){
+  }, function (cb) {
     server.close();
     cb();
   });

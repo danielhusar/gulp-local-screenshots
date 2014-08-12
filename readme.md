@@ -12,7 +12,7 @@ npm install --save-dev gulp-local-screenshots
 
 ## Example
 
-```
+```javascript
 var gulp = require('gulp');
 var localScreenshots = require('gulp-local-screenshots');
 
@@ -23,7 +23,6 @@ gulp.task('screens', function () {
    }))
   .pipe(gulp.dest('./public/'));
 });
-
 ```
 
 ## Options
