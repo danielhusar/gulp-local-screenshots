@@ -9,7 +9,7 @@ var st = require('st');
 var browser = function (file, opts, cb) {
   var width = opts.width.slice(0);
   var filename = file.replace(opts.path, '');
-  var url = 'http://localhost:' + opts.port + '/' + filename;
+  var url = opts.protocol + '://' +  opts.host + ':' + opts.port + filename;
 
   phantom.create(function (ph) {
     ph.createPage(function (page) {
@@ -62,9 +62,14 @@ module.exports = function (options) {
   opts.type = options.type || 'jpg';
   opts.folder = options.folder || 'screens';
   opts.timeout = options.timeout || 200;
+  opts.protocol = options.protocol || 'http';
+  opts.host = options.host || 'localhost';
+  opts.server = options.server || true;
 
   //start local webserver
-  server = http.createServer(st({ path: opts.path })).listen(opts.port);
+  if (opts.server) {
+    server = http.createServer(st({ path: opts.path })).listen(opts.port);
+  }
 
   return through.obj(function (file, enc, cb) {
     if (file.isNull()) {
@@ -81,7 +86,9 @@ module.exports = function (options) {
     browser(file.relative, opts, cb);
 
   }, function (cb) {
-    server.close();
+    if (opts.server) {
+      server.close();
+    }
     cb();
   });
 };

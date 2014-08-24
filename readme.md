@@ -78,6 +78,27 @@ Default: '200'
 
 Timeout between files, in most cases you dont need to change that
 
+#### protocol
+
+Type: `String`  
+Default: 'http'
+
+Protocol that will be used in phantom.js
+
+#### host
+
+Type: `String`  
+Default: 'localhost'
+
+Host that will be used in phantom.js
+
+#### server
+
+Type: `Boolean`  
+Default: 'true'
+
+If plugin should start local web server (otherwise you should start your web server by yourself, or specify host option for some remote server)
+
 
 ## Demo
 

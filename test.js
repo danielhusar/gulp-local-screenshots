@@ -1,9 +1,10 @@
 'use strict';
+
+var fs = require('fs');
 var assert = require('assert');
 var gutil = require('gulp-util');
-var fs = require('fs');
-var localScreenshots = require('./index');
 var sizeOf = require('image-size');
+var localScreenshots = require('./index');
 var dimensions;
 
 it('It should generate properly screenshot', function (cb) {
