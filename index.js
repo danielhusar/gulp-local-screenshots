@@ -7,9 +7,9 @@ var st = require('st');
 
 // Core screenshot function using phamtonJS
 var browser = function (file, opts, cb) {
-  var width = opts.width.slice(0);
+  var width = opts.width;
   var filename = file.replace(opts.path, '');
-  var url = opts.protocol + '://' +  opts.host + ':' + opts.port + filename;
+  var url = opts.protocol + '://' +  opts.host + ':' + opts.port + '/' + filename;
 
   phantom.create(function (ph) {
     ph.createPage(function (page) {
@@ -18,7 +18,7 @@ var browser = function (file, opts, cb) {
         if (!w) {
           ph.exit();
           setTimeout(cb, opts.timeout);
-          width = opts.width.slice(0);
+          width = opts.width;
           return;
         }
         page.set('viewportSize', {
@@ -55,7 +55,7 @@ module.exports = function (options) {
   options = options ? options : {};
 
   //defaults
-  opts.path = options.path || 'public';
+  opts.path = options.path || 'public/';
   opts.port = options.port || '8080';
   opts.width = options.width || ['1024'];
   opts.height = options.height || '10';
@@ -64,7 +64,7 @@ module.exports = function (options) {
   opts.timeout = options.timeout || 200;
   opts.protocol = options.protocol || 'http';
   opts.host = options.host || 'localhost';
-  opts.server = options.server || true;
+  opts.server = typeof options.server === 'undefined' ? true : options.server;
 
   //start local webserver
   if (opts.server) {
