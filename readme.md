@@ -31,9 +31,10 @@ gulp.task('screens', function () {
 #### path
 
 Type: `String`  
-Default: 'public'
+Default: 'public/'
 
-Path from which the static files are served (this string is removed from file relative path so be carefull and dont put just '/')
+Path from which the static files are served (Trailing slash at the end is required.)
+
 
 #### port
 
