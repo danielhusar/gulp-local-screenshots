@@ -7,7 +7,7 @@ var st = require('st');
 
 // Core screenshot function using phamtonJS
 var browser = function (file, opts, cb) {
-  var width = opts.width;
+  var width = opts.width.slice(0);
   var filename = file.replace(opts.path, '');
   var url = opts.protocol + '://' +  opts.host + ':' + opts.port + '/' + filename;
 
