@@ -18,7 +18,7 @@ var localScreenshots = require('gulp-local-screenshots');
 
 gulp.task('screens', function () {
   gulp.src('./public/*.html')
-  .pipe(localscreenshots({
+  .pipe(localScreenshots({
     width: ['1600', '1000', '480', '320']
    }))
   .pipe(gulp.dest('./public/'));
