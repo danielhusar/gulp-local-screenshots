@@ -13,21 +13,28 @@ var browser = function (file, opts, cb) {
 
   phantom.create(function (ph) {
     ph.createPage(function (page) {
-      page.set('zoomFactor', 1);
+      page.set('zoomFactor', opts.zoom);
       var screenshot = function (w) {
         if (!w) {
           ph.exit();
           setTimeout(cb, opts.timeout);
-          width = opts.width;
+          width = opts.width * opts.zoom;
           return;
         }
         page.set('viewportSize', {
-          width: w,
-          height: opts.height
+          width: w * opts.zoom,
+          height: opts.height * opts.zoom
         });
 
         page.open(url, function() {
-          var dest = filename.replace('.html', '') + '-' + w + '.' + opts.type;
+          var dest;
+
+          if ( opts.zoom > 1 ) {
+            dest = filename.replace('.html', '') + '-' + w + '-zoom-' + opts.zoom + '.' + opts.type;
+          } else {
+            dest = filename.replace('.html', '') + '-' + w + '.' + opts.type;
+          }
+          
           // Background problem under self-host server
           page.evaluate(function () {
             var style = document.createElement('style');
@@ -59,6 +66,7 @@ module.exports = function (options) {
   opts.port = options.port || '8080';
   opts.width = options.width || ['1024'];
   opts.height = options.height || '10';
+  opts.zoom = options.zoom || '1';
   opts.type = options.type || 'jpg';
   opts.folder = options.folder || 'screens';
   opts.timeout = options.timeout || 200;
