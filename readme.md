@@ -100,6 +100,13 @@ Default: 'true'
 
 If plugin should start local web server (otherwise you should start your web server by yourself, or specify host option for some remote server)
 
+#### zoom
+
+Type: `Number`  
+Default: '1'
+
+Zoom level to set the phantom.js browser viewport. Can be used to take 2x, 3x, etc. screen shots. Widths, heights and output file name remain as specified, but the resulting image will be * 'zoom' pixels. E.g. specify 320 width, zoom level 2: output file will be 320px of page content, but at twice the resolution (640px wide).
+
 
 ## Demo
 
