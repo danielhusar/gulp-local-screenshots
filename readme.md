@@ -114,7 +114,6 @@ Default: 'false'
 
 A custom suffix for output file name, you can use -thumb, -shot, etc. And the output file will named source-file-name + custom-suffix. If no suffix set, will use default suffix.
 
-
 ## Demo
 
 ![Demo](demo.gif)
