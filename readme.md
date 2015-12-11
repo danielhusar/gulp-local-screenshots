@@ -107,6 +107,13 @@ Default: '1'
 
 Zoom level to set the phantom.js browser viewport. Can be used to take 2x, 3x, etc. screen shots. Widths, heights and output file name remain as specified, but the resulting image will be * 'zoom' pixels. E.g. specify 320 width, zoom level 2: output file will be 320px of page content, but at twice the resolution (640px wide).
 
+#### suffix
+
+Type: `String`  
+Default: 'false'
+
+A custom suffix for output file name, you can use -thumb, -shot, etc. And the output file will named source-file-name + custom-suffix. If no suffix set, will use default suffix.
+
 
 ## Demo
 
