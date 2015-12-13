@@ -28,8 +28,9 @@ var browser = function (file, opts, cb) {
 
         page.open(url, function() {
           var dest;
-
-          if ( opts.zoom > 1 ) {
+          if ( opts.suffix ){
+            dest = filename.replace('.html', '') + '-' + opts.suffix + '.' + opts.type;
+          }else if ( opts.zoom > 1 ) {
             dest = filename.replace('.html', '') + '-' + w + '-zoom-' + opts.zoom + '.' + opts.type;
           } else {
             dest = filename.replace('.html', '') + '-' + w + '.' + opts.type;
@@ -72,6 +73,7 @@ module.exports = function (options) {
   opts.timeout = options.timeout || 200;
   opts.protocol = options.protocol || 'http';
   opts.host = options.host || 'localhost';
+  opts.suffix = options.suffix || false;
   opts.server = typeof options.server === 'undefined' ? true : options.server;
 
   //start local webserver
