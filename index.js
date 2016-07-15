@@ -31,11 +31,11 @@ var browser = function (file, opts, cb) {
           if ( opts.suffix ){
             dest = filename.replace('.html', '') + '-' + opts.suffix + '.' + opts.type;
           }else if ( opts.zoom > 1 ) {
-            dest = filename.replace('.html', '') + '-' + w + '-zoom-' + opts.zoom + '.' + opts.type;
+              dest = filename.replace('.html', '') + '-' + w + '@' + opts.zoom + 'x.' + opts.type;
           } else {
             dest = filename.replace('.html', '') + '-' + w + '.' + opts.type;
           }
-          
+
           // Background problem under self-host server
           page.evaluate(function () {
             var style = document.createElement('style');
