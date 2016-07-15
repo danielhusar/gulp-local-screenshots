@@ -112,7 +112,7 @@ Zoom level to set the phantom.js browser viewport. Can be used to take 2x, 3x, e
 Type: `String`  
 Default: 'false'
 
-A custom suffix for output file name, you can use -thumb, -shot, etc. And the output file will named source-file-name + custom-suffix. If no suffix set, will use default suffix.
+A custom suffix for output file name, you can use -thumb, -shot, etc. And the output file will named source-file-name + custom-suffix. If no suffix set, will use default suffix. If `suffix` is set, only the first `width` option will be created.
 
 ## Demo
 
